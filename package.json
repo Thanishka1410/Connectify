@@ -1,0 +1,33 @@
+{
+  "name": "connectify",
+  "version": "1.0.0",
+  "description": "Full-Stack Real-Time Group Chat Web Application (MERN Stack + Socket.IO)",
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "install:all": "npm install && npm run install:server && npm run install:client",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build",
+    "test": "cd server && npm test",
+    "start": "cd server && npm start"
+  },
+  "keywords": [
+    "chat",
+    "realtime",
+    "socket.io",
+    "react",
+    "nodejs",
+    "express",
+    "mongodb",
+    "mern",
+    "group-chat"
+  ],
+  "author": "Connectify Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
