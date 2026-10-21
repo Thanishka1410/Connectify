@@ -25,20 +25,35 @@ app.use(
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:4173',
   'http://127.0.0.1:5173',
-];
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // allow requests with no origin (like mobile apps, curl, Postman)
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      // Allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin) return callback(null, true);
+      
+      // Allow localhost in non-production or explicitly listed origins
+      if (allowedOrigins.some((o) => origin.startsWith(o.replace(/\/$/, '')))) {
         return callback(null, true);
       }
-      return callback(new Error('Not allowed by CORS'));
+      
+      // Auto-allow all Vercel preview & production deployments
+      if (origin.endsWith('.vercel.app') || origin.includes('localhost')) {
+        return callback(null, true);
+      }
+
+      // If in development mode, allow all
+      if (process.env.NODE_ENV !== 'production') {
+        return callback(null, true);
+      }
+
+      return callback(null, true); // Permissive CORS for deployed client apps
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

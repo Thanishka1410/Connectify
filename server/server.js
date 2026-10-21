@@ -16,12 +16,10 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: [
-      process.env.CLIENT_URL || 'http://localhost:5173',
-      'http://localhost:3000',
-      'http://localhost:4173',
-      'http://127.0.0.1:5173',
-    ],
+    origin: (origin, callback) => {
+      // Allow all origins for WebSocket connections in deployment
+      callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST'],
   },
