@@ -21,7 +21,12 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    const socketUrl = import.meta.env.VITE_SOCKET_URL || window.location.origin;
+    const defaultSocketUrl =
+      typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+        ? 'https://connectify-9s4e.onrender.com'
+        : window.location.origin;
+
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || defaultSocketUrl;
 
     const newSocket = io(socketUrl, {
       auth: { token },

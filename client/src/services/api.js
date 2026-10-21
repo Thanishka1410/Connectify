@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const defaultApiUrl =
+  typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+    ? 'https://connectify-9s4e.onrender.com/api'
+    : '/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: import.meta.env.VITE_API_URL || defaultApiUrl,
   withCredentials: true,
 });
 
